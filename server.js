@@ -28,7 +28,7 @@ app.get('/api/notes', (req, res) => {
   }); 
 });
 
-// API route for creating and saving a new note onto the right navigation side.
+// API route for creating and saving new notes into the database for usage.
 app.post('/api/notes', (req, res) => {
   // Reads the notes from the db.json file.
   fs.readFile('./db/db.json', 'utf8', (err, data) => {
@@ -60,4 +60,19 @@ app.post('/api/notes', (req, res) => {
       res.json(newNote);
     });
   });
+});
+
+// A Route to the Notes HTML file within public folder.
+app.get('/notes', (req, res) => {
+  res.sendFile(path.join(__dirname, '/public/notes.html'));
+});
+
+// A Route to the Index HTML file within public folder.
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/public/index.html'));
+});
+
+// Starts the server.
+app.listen(PORT, () => {
+  console.log(`Server is listening on PORT: ${PORT}`);
 });
