@@ -53,12 +53,50 @@ app.post('/api/notes', (req, res) => {
       // If statement to check for any potential errors.
       if (err) {
         console.error(err);
-        return res.status(500).json({ error: 'Failed to save the note to the database!' });
+        return res.status(500).json({ error: 'Failed to save the note database!' });
       }
 
       // Returns the new note as a response.
       res.json(newNote);
     });
+  });
+});
+
+// API route to deleting notes by ID.
+app.delete('/api/notes/:id', (req, res) => {
+  // Read the notes from the db.json file.
+  fs.readFile('./db/db.json', 'utf8', (err, data) => {
+    // If statement to check for any potential errors.
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: 'Failed to read the note database!' });
+    }
+
+    // Parse the data as JSON into a variable.
+    const notes = JSON.parse(data);
+
+    // Find the index of the note with the given ID.
+    const noteIndex = notes.findIndex(note => note.id === parseInt(req.params.id));
+
+    // If the note is found, remove from the array.
+    if (noteIndex !== -1) {
+      notes.splice(noteIndex, 1);
+
+      // Write the updated notes to the db.json file.
+      fs.writeFile('./db/db.json', JSON.stringify(notes, null, 2), (err) => {
+        // If statement to check for any potential errors.
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ error: 'Failed to delete the note!' });
+        }
+
+        // Return a message on a successful response.
+        res.json({ message: 'Note deleted successfully!' });
+      });
+    } else {
+      // If the note is not found, then return an error.
+      res.status(404).json({ error: 'Note not found!' });
+    }
   });
 });
 
