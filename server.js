@@ -5,7 +5,7 @@ const path = require('path');
 
 // Global variable to initialize and set up express server.
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Middleware functions to set up express applications.
 app.use(express.urlencoded({ extended: true }));
