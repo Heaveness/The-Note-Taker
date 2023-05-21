@@ -24,7 +24,7 @@ app.get('/api/notes', (req, res) => {
     	// Parse the array data then send it as a response to the client.
     	const notes = JSON.parse(data);
     	res.json(notes);
-  }); 
+  	}); 
 });
 
 // API route for creating and saving new notes into the database for usage.
